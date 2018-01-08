@@ -1,4 +1,5 @@
 from flask import Flask, request
+import requests
 
 app = Flask(__name__)
 app.debug = True
@@ -22,7 +23,7 @@ def enterData():
     s = """<!DOCTYPE html>
 <html>
 <body>
-<form>
+<form action="/result" method="post">
   INGREDIENT:<br>
   <input type="text" name="ingredient" value="eggs">
   <br>
@@ -37,10 +38,10 @@ def enterData():
 ## Task 3.2
 ## Modify the function code and return statement
 ## to display recipes for the ingredient entered
-@app.route('/result',methods = ['POST', 'GET'])
+@app.route('/result', methods = ['POST', 'GET'])
 def displayData():
     if request.method == 'POST':
-        pass
+        return requests.get('http://www.recipepuppy.com/api/?q=' + request.form.get("ingredient")).text
 
 ## Task 4
 ## Note : Since this is a dyanmic URL, recipes function should recieve a paramter called `ingrdient` 
